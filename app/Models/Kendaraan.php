@@ -10,17 +10,11 @@ class Kendaraan extends Model
     use HasFactory;
 
     protected $table = 'kendaraan';
-    protected $primaryKey = 'no_pol';
-    protected $fillable =[
-        'no_pol',
-        'no_mesin',
-        'jenis_mobil',
-        'nama_mobil',
-        'merek',
-        'kapasitas',
-        'tarif',
-    ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $fillable = [
+        'merk',
+        'model',
+        'plat_nomor',
+        'harga_sewa',
+    ];
 }

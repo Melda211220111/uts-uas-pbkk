@@ -3,49 +3,105 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kwitansi;
+use App\Models\Sewa;
 use Illuminate\Http\Request;
 
 class KwitansiController extends Controller
 {
-    //tampilan
-    public function index() {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $kwitansi = Kwitansi::all();
         return view('kwitansi.index', compact('kwitansi'));
     }
 
-    //untuk menambahkan
-    public function create (){
-        return view('kwitansi.create');
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $sewa = Sewa::all();
+        return view('kwitansi.create', compact('sewa'));
     }
 
-    public function store(Request $request) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $request->validate([
-            'tgl_kwitansi' => 'required|date',
+            'nomor_kwitansi' => 'required',
+            'tanggal_kwitansi' => 'required|date',
+            'jumlah' => 'required|numeric',
+            'sewa_id' => 'required',
         ]);
+
         Kwitansi::create($request->all());
-        return redirect()->route('kwitansi.index')->with('success', 'Kwitansi created succesfully');
+        return redirect()->route('kwitansi.index')->with('success', 'Kwitansi created successfully.');
     }
 
-    //untuk mengedit
-
-    public function edit (Kwitansi $kwitansi ){
-        return view('kwitansi.edit', compact('kwitansi'));
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Kwitansi  $kwitansi
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Kwitansi $kwitansi)
+    {
+        return view('kwitansi.show', compact('kwitansi'));
     }
 
-    public function update(Request $request, $id_kwitansi) {
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Kwitansi  $kwitansi
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Kwitansi $kwitansi)
+    {
+        $sewa = Sewa::all();
+        return view('kwitansi.edit', compact('kwitansi', 'sewa'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Kwitansi  $kwitansi
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Kwitansi $kwitansi)
+    {
         $request->validate([
-            'tgl_kwitansi',
+            'nomor_kwitansi' => 'required',
+            'tanggal_kwitansi' => 'required|date',
+            'jumlah' => 'required|numeric',
+            'kwitansi_id' => 'required',
         ]);
-        
-        $kwitansi = Kwitansi::findOrFail($id_kwitansi);
+
         $kwitansi->update($request->all());
-        return redirect()->route('kwitansi.index')->with('success', 'Kwitansi update succesfully');
+        return redirect()->route('kwitansi.index')->with('success', 'Kwitansi updated successfully.');
     }
-    
-    // untuk menghapus
-    public function destroy($id_kwitansi) {
-        $kwitansi = Kwitansi::findOrFail($id_kwitansi);
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Kwitansi  $kwitansi
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Kwitansi $kwitansi)
+    {
         $kwitansi->delete();
         return redirect()->route('kwitansi.index')->with('success', 'Kwitansi deleted successfully.');
     }
 }
+

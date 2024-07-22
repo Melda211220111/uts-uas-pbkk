@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kwitansi extends Model
+class Invoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'kwitansi';
+    protected $table = 'invoice';
 
     protected $fillable = [
-        'nomor_kwitansi',
-        'tanggal_kwitansi',
+        'nomor',
+        'tanggal',
         'jumlah',
-        'sewa_id'
     ];
-
 }

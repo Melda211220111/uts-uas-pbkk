@@ -8,11 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Penyewa extends Model
 {
     use HasFactory;
+
     protected $table = 'penyewa';
-    protected $primaryKey = 'id_penyewa';
+
     protected $fillable = [
-        'nama_penyewa',
+        'nama',
         'alamat',
-        'no_hp'
+        'telepon',
     ];
+
+    public function sewas()
+    {
+        return $this->hasMany(Sewa::class);
+    }
 }

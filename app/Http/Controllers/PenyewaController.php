@@ -7,49 +7,55 @@ use Illuminate\Http\Request;
 
 class PenyewaController extends Controller
 {
-    //tampilan
-    public function index() {
+    public function index()
+    {
         $penyewa = Penyewa::all();
         return view('penyewa.index', compact('penyewa'));
     }
 
-    //untuk menambahkan
-    public function create (){
+    public function create()
+    {
         return view('penyewa.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
-            'nama_penyewa' => 'required|string|max:100',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|string|max:15',
+            'nama' => 'required|min:3|unique:penyewa,nama',
+            'alamat' => 'required',
+            'telepon' => 'required'
         ]);
+
         Penyewa::create($request->all());
-        return redirect()->route('penyewa.index')->with('success', 'penyewa created succesfully');
+        return redirect()->route('penyewa.index')->with('success', 'Penyewa created successfully.');
     }
 
-    //untuk mengedit
+    public function show(Penyewa $penyewa)
+    {
+        return view('penyewa.show', compact('penyewa'));
+    }
 
-    public function edit (Penyewa $penyewa ){
+    public function edit(Penyewa $penyewa)
+    {
         return view('penyewa.edit', compact('penyewa'));
     }
 
-    public function update(Request $request, $id_penyewa) {
+    public function update(Request $request, Penyewa $penyewa)
+    {
         $request->validate([
-            'nama_penyewa',
-            'alamat',
-            'no_hp',
+            'nama' => 'required|min:3|unique:penyewa,nama,' . $penyewa->id,
+            'alamat' => 'required',
+            'telepon' => 'required'
         ]);
-        
-        $penyewa = Penyewa::findOrFail($id_penyewa);
+
         $penyewa->update($request->all());
-        return redirect()->route('penyewa.index')->with('success', 'penyewa update succesfully');
+        return redirect()->route('penyewa.index')->with('success', 'Penyewa updated successfully.');
     }
-    
-    // untuk menghapus
-    public function destroy($id_penyewa) {
-        $penyewa = Penyewa::findOrFail($id_penyewa);
+
+    public function destroy(Penyewa $penyewa)
+    {
         $penyewa->delete();
-        return redirect()->route('penyewa.index')->with('success', 'penyewa deleted successfully.');
+        return redirect()->route('penyewa.index')->with('success', 'Penyewa deleted successfully.');
     }
 }
+
