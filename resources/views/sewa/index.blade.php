@@ -1,7 +1,7 @@
 @extends('template.app')
 @section('content')
 <div class="section-header">
-    <h1>Halaman Kendaraan</h1>
+    <h1>Halaman Sewa</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="#">Layout</a></div>
@@ -12,30 +12,31 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <a href="{{ route('kendaraan.create') }}" class="btn btn-md btn-info mb-3">TAMBAH</a>
+                <a href="{{ route('sewa.create') }}" class="btn btn-md btn-info mb-3">TAMBAH</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Merk</th>
-                            <th scope="col">Model</th>
-                            <th scope="col">Plat Nomor</th>
-                            <th scope="col">Harga Sewa</th>
-                            <th scope="col">ACTIONS</th>
+                            <th>ID</th>
+                            <th>Penyewa</th>
+                            <th>Kendaraan</th>
+                            <th>Tanggal Sewa</th>
+                            <th>Tanggal Kembali</th>
+                            <th>Actions</th>
                         </tr>
-                        @forelse ($kendaraan as $index => $kendaraan)
+                        @forelse ($sewa as $index => $sewa)
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
-                            <td>{{ $kendaraan->merk }}</td>
-                            <td>{{ $kendaraan->model }}</td>
-                            <td>{{ $kendaraan->plat_nomor }}</td>
-                            <td>{{ $kendaraan->harga_sewa }}</td>
+                            <td>{{ $sewa->id }}</td>
+                            <td>{{ $sewa->penyewa->nama }}</td>
+                            <td>{{ $sewa->kendaraan->merk }} {{ $sewa->kendaraan->model }}</td>
+                            <td>{{ $sewa->tanggal_sewa }}</td>
+                            <td>{{ $sewa->tanggal_kembali }}</td>
                             <td class="text-center">
-                                <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kendaraan.destroy', $kendaraan->id) }}" method="POST">
-                                    <a href="{{ route('kendaraan.show', $kendaraan->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                    <a href="{{ route('kendaraan.edit', $kendaraan->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('sewa.destroy', $sewa->id) }}" method="POST">
+                                    <a href="{{ route('sewa.show', $sewa->id) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                    <a href="{{ route('sewa.edit', $sewa->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>

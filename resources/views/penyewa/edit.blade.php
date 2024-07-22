@@ -1,24 +1,32 @@
-@extends('layouts.app')
-
+@extends('template.app')
 @section('content')
-<div class="container">
+<div class="section-header">
     <h1>Edit Penyewa</h1>
-    <form action="{{ route('penyewa.update', $penyewa->id_penyewa) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="form-group">
-            <label>Nama Penyewa</label>
-            <input type="text" name="nama_penyewa" value="{{ $penyewa->nama_penyewa }}" class="form-control">
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ route('penyewa.update', $penyewa->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" name="nama" class="form-control" value="{{ $penyewa->nama }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <textarea name="alamat" class="form-control" required>{{ $penyewa->alamat }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Telepon</label>
+                        <textarea name="telepon" class="form-control" required>{{ $penyewa->telepon }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Alamat</label>
-            <input type="text" name="alamat" value="{{ $penyewa->alamat }}" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>No Hp</label>
-            <input type="text" name="no_hp" value="{{ $penyewa->no_hp }}" class="form-control">
-        </div>
-        <button type="submit">Update</button>
-    </form>
+    </div>
 </div>
 @endsection
